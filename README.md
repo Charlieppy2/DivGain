@@ -1,17 +1,41 @@
-# divgain
+# DivGain
 
-A new Flutter project.
+離線記下港股、美股賺了多少，以及日常記賬。資料留在這部裝置，不會上傳。
 
-## Getting Started
+## 股票
 
-This project is a starting point for a Flutter application.
+- 港股和美股分開計算，不會把港元和美元合成一個總數。
+- 輸入代碼後，會向 Yahoo 查名稱。買賣日期會填上該日收市價；周末或假期用上一節的收市價。持倉會更新到最近收市價。
+- 成本用平均成本法。買入費用加入成本，賣出費用從收益扣除。
+- 總收益 = 已實現 + 未實現 + 股息。今年收到的股息按日曆年、按貨幣分開顯示。
+- 賣光的股票收在「已清倉」。紅字是賺，綠字是虧。
 
-A few resources to get you started if this is your first Flutter project:
+## 記賬
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- 記賬只用港元。有日結、月結、年結。月曆固定在上面，點一天就看當天的帳。
+- 每筆支出從對應錢包扣除，收入則存入該錢包。
+- 錢包可以記入原有資金。這筆不計入日結、月結或年結。
+- 分類和錢包可以下拉選擇，也可以新增或改名。改名後，舊帳會跟著改。
+- 港元旁邊的人民幣只是參考，前面有「約」。匯率用歐洲央行的每日參考價，開一次 App 取一次，不是即時報價。
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 匯出和匯入
+
+首頁和記賬右上角可以匯出 Excel，也可以把同一份檔案匯入。匯入前會先問一次，確認後會整份取代現有的記賬、錢包和股票。
+
+重裝 App 前先匯出並保存這份檔案。刪除 App 圖示會清掉裝置裡的資料；覆蓋安裝同一個 App 則會保留。
+
+## 資料存在哪裡
+
+帳本是本機的 SQLite，不在這個 Git 倉庫裡，也不會在手機、模擬器和瀏覽器之間同步。
+
+- 手機或模擬器：App 文件目錄裡的 `divgain.db`
+- 瀏覽器預覽：該網址自己的 IndexedDB
+
+## 執行
+
+用 Flutter 開啟 `lib/main.dart`。
+
+```bash
+flutter pub get
+flutter run
+```
